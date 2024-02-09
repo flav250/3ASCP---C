@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\IBayApi2.props" />
+</Project>
