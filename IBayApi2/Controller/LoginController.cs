@@ -32,9 +32,9 @@ public class LoginController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Loginaccount([FromBody] User user)
     {
-        var hashpassword = _hashpassword.Hpassword(user.password);
+        var hashpassword = _hashpassword.Hpassword(user.Password);
 
-        var users =  _context.Users.FirstOrDefault(u => u.pseudo == user.pseudo && u.password == hashpassword);
+        var users =  _context.Users.FirstOrDefault(u => u.Pseudo == user.Pseudo && u.Password == hashpassword);
 
         if (users == null)
         {
@@ -48,7 +48,7 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser([FromBody] User payload)
     {
-        payload.password = _hashpassword.Hpassword(payload.password);
+        payload.Password = _hashpassword.Hpassword(payload.Password);
             
         await _context.Users.AddAsync(payload);
 
@@ -64,13 +64,13 @@ public class LoginController : ControllerBase
         
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.pseudo),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Pseudo),
             new Claim("UserId", user.Id.ToString())
         };
 
-        if (!string.IsNullOrEmpty(user.role))
+        if (!string.IsNullOrEmpty(user.Role))
         {
-            claims.Add(new Claim(ClaimTypes.Role, user.role));
+            claims.Add(new Claim(ClaimTypes.Role, user.Role));
         }
         
         var token = new JwtSecurityToken(

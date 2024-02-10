@@ -28,7 +28,7 @@ namespace IBayApi2.Controller
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
             var users =await _context.Users.Select(u => new User
-                { Id = u.Id, pseudo = u.pseudo, email = u.email, role = u.role }).ToListAsync();
+                { Id = u.Id, Pseudo = u.Pseudo, Email = u.Email, Role = u.Role }).ToListAsync();
             return users;
         }
 
@@ -51,7 +51,7 @@ namespace IBayApi2.Controller
         {
             var userId = User.FindFirst("UserId")?.Value;
             
-            var hashpassword = _hashpassword.Hpassword(payload.password);
+            var hashpassword = _hashpassword.Hpassword(payload.Password);
 
             if (string.IsNullOrEmpty(userId) || !int.TryParse(userId,out int userIdToken))
             {
@@ -64,10 +64,10 @@ namespace IBayApi2.Controller
                 return NotFound();
             }
 
-            user.email = payload.email;
-            user.pseudo = payload.pseudo;
-            user.password = hashpassword;
-            user.role = payload.role;
+            user.Email = payload.Email;
+            user.Pseudo = payload.Pseudo;
+            user.Password = hashpassword;
+            user.Role = payload.Role;
 
             await _context.SaveChangesAsync();
 

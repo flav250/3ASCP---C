@@ -10,6 +10,6 @@ public class ApiContext : DbContext
         
     }
 
-    public DbSet<product> ProductItems { get; set; }
+    public DbSet<Product> ProductItems { get; set; }
     public DbSet<User> Users { get; set; }
 }
