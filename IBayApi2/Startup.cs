@@ -34,6 +34,7 @@ public class Startup
                     .AllowAnyMethod();
             });
         });
+        services.AddScoped<Hashpassword>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

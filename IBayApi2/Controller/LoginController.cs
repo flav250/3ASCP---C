@@ -19,35 +19,20 @@ public class LoginController : ControllerBase
 
     private readonly IConfiguration _configuration;
 
+    private readonly Hashpassword _hashpassword;
+
     
-    public LoginController(ApiContext context, IConfiguration configuration)
+    public LoginController(ApiContext context, IConfiguration configuration,Hashpassword hashpassword)
     {
         _context = context;
         _configuration = configuration;
-    }
-    
-    private string Hpassword(string password)
-    {
-        using (var sha256 = SHA256.Create())
-        {
-
-            byte[] saltedPassword = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes = sha256.ComputeHash(saltedPassword);
-
-            StringBuilder hashStringBuilder = new StringBuilder();
-            foreach (byte b in hashBytes)
-            {
-                hashStringBuilder.Append(b.ToString("x2"));
-            }
-
-            return hashStringBuilder.ToString();
-        }
+        _hashpassword = hashpassword;
     }
     
     [HttpPost("login")]
     public async Task<IActionResult> Loginaccount([FromBody] User user)
     {
-        var hashpassword = Hpassword(user.password);
+        var hashpassword = _hashpassword.Hpassword(user.password);
 
         var users =  _context.Users.FirstOrDefault(u => u.pseudo == user.pseudo && u.password == hashpassword);
 
@@ -63,7 +48,7 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser([FromBody] User payload)
     {
-        payload.password = Hpassword(payload.password);
+        payload.password = _hashpassword.Hpassword(payload.password);
             
         await _context.Users.AddAsync(payload);
 

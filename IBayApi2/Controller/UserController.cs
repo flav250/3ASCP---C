@@ -1,5 +1,4 @@
-﻿using System.Net;
-using IBayApi2.Data;
+﻿using IBayApi2.Data;
 using IBayApi2.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +16,14 @@ namespace IBayApi2.Controller
     {
         
         private readonly ApiContext _context;
+        private readonly Hashpassword _hashpassword;
 
-        public UserController(ApiContext context)
+        public UserController(ApiContext context, Hashpassword hashpassword)
         {
             _context = context;
+            _hashpassword = hashpassword;
         }
         
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
@@ -45,11 +45,19 @@ namespace IBayApi2.Controller
             return user;
         }
         
-
-        [HttpPut("{Id}")]
-        public async Task<ActionResult<User>> PutUser(int Id, [FromBody]User payload)
+        [Authorize]
+        [HttpPut("Id")]
+        public async Task<ActionResult<User>> PutUser([FromBody]User payload)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(U => U.Id == Id);
+            var userId = User.FindFirst("UserId")?.Value;
+            
+            var hashpassword = _hashpassword.Hpassword(payload.password);
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId,out int userIdToken))
+            {
+                return BadRequest();
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userIdToken);
 
             if (user == null)
             {
@@ -58,7 +66,7 @@ namespace IBayApi2.Controller
 
             user.email = payload.email;
             user.pseudo = payload.pseudo;
-            user.password = payload.password;
+            user.password = hashpassword;
             user.role = payload.role;
 
             await _context.SaveChangesAsync();
@@ -66,10 +74,19 @@ namespace IBayApi2.Controller
             return user;
         }
         
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult<User>> DeleteUser(int Id)
+        [Authorize]
+        [HttpDelete("Id")]
+        public async Task<ActionResult<User>> DeleteUser()
         {
-            var user = await _context.Users.FindAsync(Id);
+            
+            var userId = User.FindFirst("UserId")?.Value;
+            
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId,out int userIdToken))
+            {
+                return BadRequest();
+            }
+            
+            var user = await _context.Users.FindAsync(userIdToken);
 
             if (user == null)
             {
