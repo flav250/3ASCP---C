@@ -1,6 +1,6 @@
 ﻿namespace IBayApi2.Models;
 
-public class user
+public class User
 {
     public int Id { get ; set; }
     public string email { get ; set; }
