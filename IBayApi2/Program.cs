@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddDbContext<ApiContext>(opt => opt.UseSqlServer("Data Source=myServerAddress;Initial Catalog=myDataBase;User Id=myUsername;Password=myPassword;"));
+builder.Services.AddDbContext<ApiContext>(opt => opt.UseSqlServer("Server=http://localhost:1433;Database=IBayApi_db;Trusted_Connection=True;"));
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -17,3 +17,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.Run();

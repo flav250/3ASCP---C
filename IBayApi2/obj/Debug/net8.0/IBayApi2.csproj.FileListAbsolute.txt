@@ -71,3 +71,6 @@ C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\refint\IBayApi2
 C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\IBayApi2.pdb
 C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\IBayApi2.genruntimeconfig.cache
 C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\ref\IBayApi2.dll
+C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\Microsoft.AspNetCore.Hosting.WindowsServices.dll
+C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\System.ServiceProcess.ServiceController.dll
+C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.ServiceProcess.ServiceController.dll

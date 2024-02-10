@@ -11,4 +11,5 @@ public class ApiContext : DbContext
     }
 
     public DbSet<product> ProductItems { get; set; } = null!;
+    public DbSet<user> Users { get; set; } = null!;
 }
