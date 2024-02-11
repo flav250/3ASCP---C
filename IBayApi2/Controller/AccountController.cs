@@ -10,10 +10,10 @@ using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegiste
 
 namespace IBayApi2.Controller;
 
-[Route("[controller]")]
+[Route("")]
 [ApiController]
 
-public class LoginController : ControllerBase
+public class AccountController : ControllerBase
 {
     private readonly ApiContext _context;
 
@@ -22,7 +22,7 @@ public class LoginController : ControllerBase
     private readonly Hashpassword _hashpassword;
 
     
-    public LoginController(ApiContext context, IConfiguration configuration,Hashpassword hashpassword)
+    public AccountController(ApiContext context, IConfiguration configuration,Hashpassword hashpassword)
     {
         _context = context;
         _configuration = configuration;
@@ -45,7 +45,7 @@ public class LoginController : ControllerBase
         return Ok(token);
     }
     
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<User>> CreateUser([FromBody] User payload)
     {
         payload.Password = _hashpassword.Hpassword(payload.Password);
@@ -65,12 +65,12 @@ public class LoginController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Pseudo),
-            new Claim("UserId", user.Id.ToString())
+            new Claim("UserId", user.Id.ToString()),
         };
 
         if (!string.IsNullOrEmpty(user.Role))
         {
-            claims.Add(new Claim(ClaimTypes.Role, user.Role));
+            claims.Add(new Claim("Role", user.Role));
         }
         
         var token = new JwtSecurityToken(

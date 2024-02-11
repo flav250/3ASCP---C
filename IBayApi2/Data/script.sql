@@ -1,4 +1,4 @@
-﻿CREATE TABLE Users (
+﻿CREATE TABLE Member (
                        Id INT PRIMARY KEY IDENTITY(1,1),
                        Email VARCHAR(250) NOT NULL,
                        Pseudo VARCHAR(250) NOT NULL,
@@ -14,21 +14,21 @@ CREATE TABLE Product (
                           Available BIT NOT NULL,
                           Added_time DATETIME NOT NULL,
                           UserId INT,
-                          FOREIGN KEY (UserId) REFERENCES Users(Id)
+                          FOREIGN KEY (UserId) REFERENCES Member(Id)
 );
 
-CREATE TABLE Card (
+CREATE TABLE Cart (
                        Id INT PRIMARY KEY IDENTITY(1,1),
                        UserId INT,
                        Buy BIT,
-                       FOREIGN KEY (UserId) REFERENCES Users(Id)
+                       FOREIGN KEY (UserId) REFERENCES Member(Id)
 );
 
-CREATE TABLE Card_Item (
+CREATE TABLE Cart_Item (
                                Id INT PRIMARY KEY IDENTITY(1,1),
-                               CardId INT,
+                               CartId INT,
                                ProductId INT,
                                Quantity INT,
-                               FOREIGN KEY (CardId) REFERENCES Card(Id),
+                               FOREIGN KEY (CartId) REFERENCES Cart(Id),
                                FOREIGN KEY (ProductId) REFERENCES Product(ID)
 );

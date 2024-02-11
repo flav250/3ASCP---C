@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using IBayApi2.Controller;
 using IBayApi2.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ public class Startup
                     .AllowAnyMethod();
             });
         });
+        services.AddScoped<ProductController>();
         services.AddScoped<Hashpassword>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
