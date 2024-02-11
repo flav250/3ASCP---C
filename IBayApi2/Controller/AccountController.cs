@@ -30,11 +30,11 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Loginaccount([FromBody] User user)
+    public async Task<IActionResult> Loginaccount([FromBody] Member member)
     {
-        var hashpassword = _hashpassword.Hpassword(user.Password);
+        var hashpassword = _hashpassword.Hpassword(member.Password);
 
-        var users =  _context.Users.FirstOrDefault(u => u.Pseudo == user.Pseudo && u.Password == hashpassword);
+        var users =  _context.Member.FirstOrDefault(u => u.Pseudo == member.Pseudo && u.Password == hashpassword);
 
         if (users == null)
         {
@@ -46,31 +46,31 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("register")]
-    public async Task<ActionResult<User>> CreateUser([FromBody] User payload)
+    public async Task<ActionResult<Member>> CreateUser([FromBody] Member payload)
     {
         payload.Password = _hashpassword.Hpassword(payload.Password);
             
-        await _context.Users.AddAsync(payload);
+        await _context.Member.AddAsync(payload);
 
         await _context.SaveChangesAsync();
 
         return payload;
     }
     
-    private string GenerateJwtToken(User user)
+    private string GenerateJwtToken(Member member)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Pseudo),
-            new Claim("UserId", user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, member.Pseudo),
+            new Claim("UserId", member.Id.ToString()),
         };
 
-        if (!string.IsNullOrEmpty(user.Role))
+        if (!string.IsNullOrEmpty(member.Role))
         {
-            claims.Add(new Claim("Role", user.Role));
+            claims.Add(new Claim("Role", member.Role));
         }
         
         var token = new JwtSecurityToken(

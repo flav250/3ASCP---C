@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IBayApi2.Models;
+[Table("Product")]
 
 public class Product
 {
@@ -11,5 +12,5 @@ public class Product
     public bool Available { get; set; }
     public DateTime AddedTime { get; set; }
     public int UserId { get; set; }
-    [ForeignKey("UserId")] public User SellerUser { get; set; }
+    [ForeignKey("UserId")] public Member SellerMember { get; set; }
 }

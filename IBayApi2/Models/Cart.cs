@@ -2,9 +2,11 @@
 
 namespace IBayApi2.Models;
 
-public class cart
+[Table("Cart")]
+public class Cart
 {
     public int Id { get; set; }
-    [ForeignKey("UserId")] public User UserId { get; set; }
+    public int UserId { get; set; }
+    [ForeignKey("UserId")] public Member Member { get; set; }
     public bool Buy { get; set; }
 }

@@ -26,17 +26,17 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUser()
+    public async Task<ActionResult<IEnumerable<Member>>> GetUser()
     {
-        var users = await _context.Users.Select(u => new User
+        var users = await _context.Member.Select(u => new Member
             { Id = u.Id, Pseudo = u.Pseudo, Email = u.Email, Role = u.Role }).ToListAsync();
         return users;
     }
 
     [HttpGet("{userId}")]
-    public async Task<ActionResult<User>> GetUserById(int userId)
+    public async Task<ActionResult<Member>> GetUserById(int userId)
     {
-        var user = await _context.Users.FindAsync(userId);
+        var user = await _context.Member.FindAsync(userId);
 
         if (user == null)
         {
@@ -48,7 +48,7 @@ public class UserController : ControllerBase
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPut]
-    public async Task<ActionResult<User>> PutUser([FromBody] User payload)
+    public async Task<ActionResult<Member>> PutUser([FromBody] Member payload)
     {
         var userId = User.FindFirst("UserId")?.Value;
 
@@ -59,7 +59,7 @@ public class UserController : ControllerBase
             return BadRequest();
         }
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userIdToken);
+        var user = await _context.Member.FirstOrDefaultAsync(u => u.Id == userIdToken);
 
         if (user == null)
         {
@@ -78,7 +78,7 @@ public class UserController : ControllerBase
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpDelete]
-    public async Task<ActionResult<User>> DeleteUser()
+    public async Task<ActionResult<Member>> DeleteUser()
     {
         var userId = User.FindFirst("UserId")?.Value;
 
@@ -87,7 +87,7 @@ public class UserController : ControllerBase
             return BadRequest();
         }
 
-        var user = await _context.Users.FindAsync(userIdToken);
+        var user = await _context.Member.FindAsync(userIdToken);
 
         if (user == null)
         {
@@ -95,7 +95,7 @@ public class UserController : ControllerBase
         }
 
         await _productController.DeleteProcductsBySeller(userIdToken);
-        _context.Users.Remove(user);
+        _context.Member.Remove(user);
 
         await _context.SaveChangesAsync();
 

@@ -12,7 +12,7 @@ CREATE TABLE Product (
                           Image VARCHAR(250) NOT NULL,
                           Price FLOAT NOT NULL,
                           Available BIT NOT NULL,
-                          Added_time DATETIME NOT NULL,
+                          AddedTime DATETIME NOT NULL,
                           UserId INT,
                           FOREIGN KEY (UserId) REFERENCES Member(Id)
 );
@@ -24,7 +24,7 @@ CREATE TABLE Cart (
                        FOREIGN KEY (UserId) REFERENCES Member(Id)
 );
 
-CREATE TABLE Cart_Item (
+CREATE TABLE CartItem (
                                Id INT PRIMARY KEY IDENTITY(1,1),
                                CartId INT,
                                ProductId INT,

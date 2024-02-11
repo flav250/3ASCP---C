@@ -1,6 +1,9 @@
-﻿namespace IBayApi2.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public class User
+namespace IBayApi2.Models;
+[Table("Member")]
+
+public class Member
 {
     public int Id { get ; set; }
     public string Email { get ; set; }

@@ -21,10 +21,10 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
     {
-        var products = await _context.Product.Include(p => p.SellerUser).Select(p => new Product
+        var products = await _context.Product.Include(p => p.SellerMember).Select(p => new Product
         {
             Id = p.Id, Name = p.Name, Available = p.Available, Image = p.Image, Price = p.Price,
-            AddedTime = p.AddedTime, UserId = p.SellerUser.Id
+            AddedTime = p.AddedTime, UserId = p.SellerMember.Id
         }).ToListAsync();
         return products;
     }
@@ -47,7 +47,6 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<Product>> PostProduct([FromBody] Product payload)
     {
         var userRole = User.FindFirst("Role")?.Value;
-        Console.WriteLine("role" + userRole);
         if (string.IsNullOrEmpty(userRole))
         {
             return BadRequest();
@@ -59,13 +58,12 @@ public class ProductController : ControllerBase
         }
 
         var userId = User.FindFirst("UserId")?.Value;
-        Console.WriteLine("user" + userId);
         if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
         {
             return BadRequest();
         }
 
-        payload.SellerUser = await _context.Users.FindAsync(userIdToken);
+        payload.SellerMember = await _context.Member.FindAsync(userIdToken);
         _context.Product.Add(payload);
 
         await _context.SaveChangesAsync();
@@ -154,7 +152,7 @@ public class ProductController : ControllerBase
     [HttpDelete]
     public async Task<ActionResult<IEnumerable<Product>>> DeleteProcductsBySeller(int sellerId)
     {
-        var products = await _context.Product.Where(p => p.SellerUser.Id == sellerId).ToListAsync();
+        var products = await _context.Product.Where(p => p.SellerMember.Id == sellerId).ToListAsync();
         _context.Product.RemoveRange(products);
         await _context.SaveChangesAsync();
         return products;
