@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace IBayApi2.Controller;
 
@@ -19,14 +20,22 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+    public async Task<ActionResult<IEnumerable<Product>>> GetProduct([FromQuery] string sortBy = "Name",
+        [FromQuery] int limit = 10)
     {
         var products = await _context.Product.Include(p => p.SellerMember).Select(p => new Product
         {
             Id = p.Id, Name = p.Name, Available = p.Available, Image = p.Image, Price = p.Price,
             AddedTime = p.AddedTime, UserId = p.SellerMember.Id
         }).ToListAsync();
-        return products;
+        if (sortBy != "AddedTime" && sortBy != "Name" && sortBy != "Price" && sortBy != "Available")
+        {
+            return BadRequest("Invalid sortBy parameter");
+        }
+
+        var sortedProducts = products.AsQueryable().OrderBy(sortBy).Take(limit).ToList();
+
+        return sortedProducts;
     }
 
     [HttpGet("{productId}")]
