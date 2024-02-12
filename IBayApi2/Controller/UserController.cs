@@ -8,10 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IBayApi2.Controller;
 
-
 [Route("[controller]")]
 [ApiController]
-
 public class UserController : ControllerBase
 {
     private readonly ApiContext _context;
@@ -28,77 +26,109 @@ public class UserController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Member>>> GetUser()
     {
-        var users = await _context.Member.Select(u => new Member
-            { Id = u.Id, Pseudo = u.Pseudo, Email = u.Email, Role = u.Role }).ToListAsync();
-        return users;
+        try
+        {
+            var users = await _context.Member.Select(u => new Member
+                { Id = u.Id, Pseudo = u.Pseudo, Email = u.Email, Role = u.Role }).ToListAsync();
+            return Ok(users);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     [HttpGet("{userId}")]
     public async Task<ActionResult<Member>> GetUserById(int userId)
     {
-        var user = await _context.Member.FindAsync(userId);
-
-        if (user == null)
+        try
         {
-            return NotFound();
-        }
+            var user = await _context.Member.FindAsync(userId);
 
-        return user;
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPut]
     public async Task<ActionResult<Member>> PutUser([FromBody] Member payload)
     {
-        var userId = User.FindFirst("UserId")?.Value;
-
-        var hashpassword = _hashpassword.Hpassword(payload.Password);
-
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+        try
         {
-            return BadRequest();
+            var userId = User.FindFirst("UserId")?.Value;
+
+            var hashpassword = _hashpassword.Hpassword(payload.Password);
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
+
+            var user = await _context.Member.FirstOrDefaultAsync(u => u.Id == userIdToken);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.Email = payload.Email;
+            user.Pseudo = payload.Pseudo;
+            user.Password = hashpassword;
+            user.Role = payload.Role;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
         }
-
-        var user = await _context.Member.FirstOrDefaultAsync(u => u.Id == userIdToken);
-
-        if (user == null)
+        catch (Exception e)
         {
-            return NotFound();
+            Console.WriteLine(e);
+            throw;
         }
-
-        user.Email = payload.Email;
-        user.Pseudo = payload.Pseudo;
-        user.Password = hashpassword;
-        user.Role = payload.Role;
-
-        await _context.SaveChangesAsync();
-
-        return user;
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpDelete]
     public async Task<ActionResult<Member>> DeleteUser()
     {
-        var userId = User.FindFirst("UserId")?.Value;
-
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+        try
         {
-            return BadRequest();
+            var userId = User.FindFirst("UserId")?.Value;
+
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
+
+            var user = await _context.Member.FindAsync(userIdToken);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            await _productController.DeleteProcductsBySeller(userIdToken);
+            _context.Member.Remove(user);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
         }
-
-        var user = await _context.Member.FindAsync(userIdToken);
-
-        if (user == null)
+        catch (Exception e)
         {
-            return NotFound();
+            Console.WriteLine(e);
+            throw;
         }
-
-        await _productController.DeleteProcductsBySeller(userIdToken);
-        _context.Member.Remove(user);
-
-        await _context.SaveChangesAsync();
-
-        return user;
     }
 }

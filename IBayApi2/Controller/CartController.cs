@@ -26,7 +26,7 @@ public class CartController : ControllerBase
         var userId = User.FindFirst("UserId")?.Value;
         if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
         {
-            return BadRequest();
+            return BadRequest("Invalid token");
         }
 
         var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).FirstOrDefaultAsync();
@@ -35,100 +35,162 @@ public class CartController : ControllerBase
             return NotFound("No cart found");
         }
 
-        Console.WriteLine("before");
         var cartProducts =
             await _context.CartItem.Where(c => c.Cart.Id == cart.Id).Include(c => c.Product).ToListAsync();
-        Console.WriteLine("cartProducts" + cartProducts);
         if (cartProducts.Count == 0)
         {
             return NotFound("No items in cart");
         }
 
-        return cartProducts;
+        return Ok(cartProducts);
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpPost]
+    [HttpPost("addItem")]
     public async Task<ActionResult<CartItem>> PostCartItem([FromBody] CartItem payload)
     {
-        var userId = User.FindFirst("UserId")?.Value;
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+        try
         {
-            return BadRequest();
-        }
+            var userId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
 
-        var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).Include(c => c.Member)
-            .FirstOrDefaultAsync();
-        if (cart == null)
+            var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).Include(c => c.Member)
+                .FirstOrDefaultAsync();
+            if (cart == null)
+            {
+                return NotFound("No cart found");
+            }
+
+            payload.CartId = cart.Id;
+
+            await _context.CartItem.AddAsync(payload);
+            await _context.SaveChangesAsync();
+
+            return Ok(payload);
+        }
+        catch (Exception e)
         {
-            return NotFound("No cart found");
+            Console.WriteLine(e);
+            throw;
         }
-
-        payload.CartId = cart.Id;
-
-        await _context.CartItem.AddAsync(payload);
-        await _context.SaveChangesAsync();
-
-        return payload;
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpDelete("{cartItemId}")]
     public async Task<ActionResult<CartItem>> DeleteCartItem(int cartItemId)
     {
-        var userId = User.FindFirst("UserId")?.Value;
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+        try
         {
-            return BadRequest();
-        }
+            var userId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
 
-        var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).FirstOrDefaultAsync();
-        if (cart == null)
+            var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).FirstOrDefaultAsync();
+            if (cart == null)
+            {
+                return NotFound("No cart found");
+            }
+
+            var cartItem = await _context.CartItem.FindAsync(cartItemId);
+            if (cartItem == null)
+            {
+                return NotFound("No item found");
+            }
+
+            if (cartItem.Cart.Id != cart.Id)
+            {
+                return BadRequest("Item not in cart");
+            }
+
+            _context.CartItem.Remove(cartItem);
+            await _context.SaveChangesAsync();
+
+            return Ok(cartItem);
+        }
+        catch (Exception e)
         {
-            return NotFound("No cart found");
+            Console.WriteLine(e);
+            throw;
         }
+    }
 
-        var cartItem = await _context.CartItem.FindAsync(cartItemId);
-        if (cartItem == null)
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost]
+    public async Task<ActionResult<Cart>> CreateCart()
+    {
+        try
         {
-            return NotFound("No item found");
-        }
+            var userId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
 
-        if (cartItem.Cart.Id != cart.Id)
+            var cart = await _context.Cart.Where(c => c.Member.Id == userIdToken).FirstOrDefaultAsync();
+            if (cart != null)
+            {
+                return BadRequest("Cart already exists");
+            }
+
+            var newCart = new Cart
+            {
+                UserId = userIdToken,
+                Buy = false
+            };
+
+            await _context.Cart.AddAsync(newCart);
+            await _context.SaveChangesAsync();
+
+            return Ok(newCart);
+        }
+        catch (Exception e)
         {
-            return BadRequest("Item not in cart");
+            Console.WriteLine(e);
+            throw;
         }
-
-        _context.CartItem.Remove(cartItem);
-        await _context.SaveChangesAsync();
-
-        return cartItem;
     }
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPut]
-    public async Task<ActionResult<Cart>> PutCart([FromBody] Cart payload)
+    public async Task<ActionResult<Cart>> PayCartAndEmptyIt([FromBody] Cart payload)
     {
-        var userId = User.FindFirst("UserId")?.Value;
-        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+        try
         {
-            return BadRequest();
-        }
+            var userId = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdToken))
+            {
+                return BadRequest("Invalid token");
+            }
 
-        var cart = await _context.Cart.Where(c => c.UserId == userIdToken).FirstOrDefaultAsync();
-        if (cart == null)
+            var cart = await _context.Cart.Where(c => c.UserId == userIdToken).FirstOrDefaultAsync();
+            if (cart == null)
+            {
+                return NotFound("No cart found");
+            }
+
+            cart.Buy = payload.Buy;
+
+            var cartItemsToRemove = await _context.CartItem.Where(c => c.Cart.UserId == userIdToken).ToListAsync();
+            if (cartItemsToRemove.Count == 0)
+            {
+                return NotFound("No items in cart");
+            }
+
+            _context.CartItem.RemoveRange(cartItemsToRemove);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(cart);
+        }
+        catch (Exception e)
         {
-            return NotFound("No cart found");
+            Console.WriteLine(e);
+            throw;
         }
-
-        cart.Buy = payload.Buy;
-
-        var cartItemsToRemove = await _context.CartItem.Where(c => c.Cart.UserId == userIdToken).ToListAsync();
-        _context.CartItem.RemoveRange(cartItemsToRemove);
-
-        await _context.SaveChangesAsync();
-
-        return cart;
     }
-    
 }

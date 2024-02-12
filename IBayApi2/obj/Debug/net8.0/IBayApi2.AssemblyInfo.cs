@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IBayApi2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d2cfbbc333797bb11bb684ea34b96c9cca4c74b")]
 [assembly: System.Reflection.AssemblyProductAttribute("IBayApi2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IBayApi2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

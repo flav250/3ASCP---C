@@ -1,6 +1,123 @@
-@IBayApi2_HostAddress = http://localhost:5130
+### Register ###
+POST http://localhost:5130/register
+Content-Type: application/json
 
-GET {{IBayApi2_HostAddress}}/api/User
-Accept: application/json
+{
+  "email": "user4@gmail.com",
+  "pseudo": "user4",
+  "password": "user4",
+  "role": "seller"
+}
 
-###
+### Login ###
+POST http://localhost:5130/login
+Content-Type: application/json
+
+{
+  "Pseudo": "user1",
+  "Password": "user1"
+}
+
+
+### GetUser ###
+GET http://localhost:5130/User
+
+### GetUserById ###
+GET http://localhost:5130/User/1
+
+### PutUser ###
+PUT http://localhost:5130/User
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "user1@gmail.fr",
+  "pseudo": "user1",
+  "password": "user1",
+  "role": "seller"
+}
+
+### DeleteUser ###
+DELETE http://localhost:5130/User
+Authorization: Bearer {{token}}
+
+
+### GetProduct ###
+GET http://localhost:5130/Product?sortBy=Name&limit=10
+Authorization: Bearer {{token}}
+
+### GetProductById ###
+GET http://localhost:5130/Product/1
+Authorization: Bearer {{token}}
+
+### GetProductsBySearch ###
+GET http://localhost:5130/Product/search?searchTerm=product1&sortBy=Name&limit=10
+Authorization: Bearer {{token}}
+
+### PostProduct ###
+POST http://localhost:5130/Product
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "product4",
+  "image": "image4",
+  "price": 20,
+  "available": true,
+  "addedTime": "2024-02-10T23:48:30",
+  "userId": 1
+}
+
+### PutProduct ###
+PUT http://localhost:5130/Product/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "product1",
+  "image": "image1",
+  "price": 15,
+  "available": true,
+  "addedTime": "2021-01-01T00:00:00",
+  "userId": 1
+}
+
+### DeleteProduct ###
+DELETE http://localhost:5130/Product/4
+Authorization: Bearer {{token}}
+
+
+### GetCartItem ###
+GET http://localhost:5130/Cart
+Authorization: Bearer {{token}}
+
+### CreateCart ###
+POST http://localhost:5130/Cart
+Authorization: Bearer {{token}}
+
+
+### PostCartItem ###
+POST http://localhost:5130/Cart/addItem
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+
+### DeleteCartItem ###
+DELETE http://localhost:5130/Cart/7
+Authorization: Bearer {{token}}
+
+### PayCartAndEmptyIt ###
+PUT http://localhost:5130/Cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "Buy": true
+}
+
+
+

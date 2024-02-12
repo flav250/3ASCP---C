@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj": {}
+    "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj": {
+    "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
+        "projectUniqueName": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
         "projectName": "IBayApi2",
-        "projectPath": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
-        "packagesPath": "C:\\Users\\flavi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\obj\\",
+        "projectPath": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
+        "packagesPath": "C:\\Users\\aubbr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\flavi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\aubbr\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -90,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\flavi\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\aubbr\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

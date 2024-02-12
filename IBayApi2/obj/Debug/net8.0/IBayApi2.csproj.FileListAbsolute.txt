@@ -152,3 +152,4 @@ C:\Users\aubbr\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\IBayApi2.genrun
 C:\Users\aubbr\RiderProjects\3ASCP---C\IBayApi2\obj\Debug\net8.0\ref\IBayApi2.dll
 C:\Users\aubbr\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\System.Linq.Dynamic.Core.dll
 C:\Users\flavi\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\System.Linq.Dynamic.Core.dll
+C:\Users\aubbr\RiderProjects\3ASCP---C\IBayApi2\bin\Debug\net8.0\http-client.private.env.json
