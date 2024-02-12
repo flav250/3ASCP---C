@@ -50,7 +50,31 @@ public class ProductController : ControllerBase
 
         return product;
     }
+    
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<Product>>> GetProductsBySearch([FromQuery] string searchTerm,
+        [FromQuery] string sortBy = "Name",
+        [FromQuery] int limit = 10)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return BadRequest("Search term is required");
+        }
 
+        var products = await _context.Product.Include(p => p.SellerMember)
+            .Where(p => p.Name.Contains(searchTerm))
+            .ToListAsync();
+
+        if (sortBy != "AddedTime" && sortBy != "Name" && sortBy != "Price" && sortBy != "Available")
+        {
+            return BadRequest("Invalid sortBy parameter");
+        }
+
+        var sortedProducts = products.AsQueryable().OrderBy(sortBy).Take(limit).ToList();
+
+        return sortedProducts;
+    }
+    
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpPost]
     public async Task<ActionResult<Product>> PostProduct([FromBody] Product payload)
