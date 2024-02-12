@@ -55,6 +55,8 @@ Il ne vous reste plus qu'à build le projet.
 
 Pour essayer notre API, vous pouvez vous servir du fichier [IBayApi2.http](IBayApi2.http) pour toutes les requêtes nécessitantes une authentification, il vous suffit de modifier le token dans le fichier [http-client.private.env.json](http-client.private.env.json).
 
+**Point très important :** Il vous faudra run le fichier [IBayApi2.http](IBayApi2.http) en environnement dev (situé en haut avec un menu déroulant).
+
 Avec le lien, ci-dessous vous pourrez tester toutes les routes, mais aussi celle qui nécessite le token. 
 
 Lien PostMan : https://app.getpostman.com/join-team?invite_code=4f2976ceb1ac76bd642d2e2cfaa4a2f5&target_code=6aaa3f24b4725544a03d18173c0d9744
