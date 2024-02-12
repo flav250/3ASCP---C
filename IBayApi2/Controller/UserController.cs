@@ -118,7 +118,19 @@ public class UserController : ControllerBase
                 return NotFound("User not found");
             }
 
-            await _productController.DeleteProcductsBySeller(userIdToken);
+            await _productController.DeleteProductsBySeller(userIdToken);
+
+            var cartToRemove = await _context.Cart.Where(c => c.Member.Id == userIdToken).FirstOrDefaultAsync();
+            if (cartToRemove != null)
+            {
+                _context.Cart.Remove(cartToRemove);
+            }
+            var cartItemsToRemove = await _context.CartItem.Where(ci => ci.Cart.Member.Id == userIdToken).ToListAsync();
+            if (cartItemsToRemove != null)
+            {
+                _context.CartItem.RemoveRange(cartItemsToRemove);
+            }
+
             _context.Member.Remove(user);
 
             await _context.SaveChangesAsync();

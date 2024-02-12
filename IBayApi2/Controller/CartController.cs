@@ -193,4 +193,28 @@ public class CartController : ControllerBase
             throw;
         }
     }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpDelete]
+    public async Task<ActionResult<CartItem>> DeleteCartItemByProductId(int productId)
+    {
+        try
+        {
+            var cartItems = await _context.CartItem.Where(c => c.Product.Id == productId).ToListAsync();
+            if (cartItems == null)
+            {
+                return NotFound("No item found");
+            }
+
+            _context.CartItem.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+
+            return Ok(cartItems);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

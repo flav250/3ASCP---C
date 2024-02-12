@@ -36,6 +36,7 @@ public class Startup
             });
         });
         services.AddScoped<ProductController>();
+        services.AddScoped<CartController>();
         services.AddScoped<Hashpassword>();
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

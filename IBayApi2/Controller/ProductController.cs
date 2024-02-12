@@ -13,10 +13,12 @@ namespace IBayApi2.Controller;
 public class ProductController : ControllerBase
 {
     private readonly ApiContext _context;
+    private readonly CartController _cartController;
 
-    public ProductController(ApiContext context)
+    public ProductController(ApiContext context, CartController cartController)
     {
         _context = context;
+        _cartController = cartController;
     }
 
     [HttpGet]
@@ -227,11 +229,15 @@ public class ProductController : ControllerBase
 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpDelete]
-    public async Task<ActionResult<IEnumerable<Product>>> DeleteProcductsBySeller(int sellerId)
+    public async Task<ActionResult<IEnumerable<Product>>> DeleteProductsBySeller(int sellerId)
     {
         try
         {
             var products = await _context.Product.Where(p => p.SellerMember.Id == sellerId).ToListAsync();
+            foreach (var product in products)
+            {
+                await _cartController.DeleteCartItemByProductId(product.Id);
+            }
             _context.Product.RemoveRange(products);
             await _context.SaveChangesAsync();
             return products;
