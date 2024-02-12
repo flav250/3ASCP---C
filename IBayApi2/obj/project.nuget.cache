@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "BBVmQJ7mfgAS81eCZKcvcStSB1u8Ju2u6UiE2aJeZiRn9kRYskQea/f8lsvFzVxorhBFAPMXspQhXR6qMQpoXg==",
+  "dgSpecHash": "BKQ5FN1hOxHk5YXhd5o5Y7Z4UDFLmoj3yWxcd86uj57VvaG4tTWAeeLspHueGzvOI7wzctqb/z7w4y/4Q1HKfg==",
   "success": true,
   "projectFilePath": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
   "expectedPackageFiles": [
@@ -48,7 +48,7 @@
     "C:\\Users\\flavi\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
     "C:\\Users\\flavi\\.nuget\\packages\\system.formats.asn1\\5.0.0\\system.formats.asn1.5.0.0.nupkg.sha512",
     "C:\\Users\\flavi\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.1.2\\system.identitymodel.tokens.jwt.7.1.2.nupkg.sha512",
-    "C:\\Users\\flavi\\.nuget\\packages\\system.linq.dynamic.core\\1.3.9-preview-02\\system.linq.dynamic.core.1.3.9-preview-02.nupkg.sha512",
+    "C:\\Users\\flavi\\.nuget\\packages\\system.linq.dynamic.core\\1.3.8\\system.linq.dynamic.core.1.3.8.nupkg.sha512",
     "C:\\Users\\flavi\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\flavi\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\flavi\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
