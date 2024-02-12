@@ -797,7 +797,7 @@
           }
         }
       },
-      "System.Linq.Dynamic.Core/1.3.8": {
+      "System.Linq.Dynamic.Core/1.3.9-preview-02": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.Linq.Dynamic.Core.dll": {
@@ -2444,10 +2444,10 @@
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
-    "System.Linq.Dynamic.Core/1.3.8": {
-      "sha512": "qEBOJO6z4Ps8HE4EM3S0tvBnshgE6mpTd7sv2kAdHaMNkIRIZ+dttvaC9NnL5SFN8maHEvsW0h2xJ7X0Vp9b6Q==",
+    "System.Linq.Dynamic.Core/1.3.9-preview-02": {
+      "sha512": "6p4EjHQlqYOqzzm5ba82Tcvj4KeO+HsT4qhD6suNZLujbmnKejLOzcoApGcRIV92iQKKn1SZk+6Joq2XkVokwg==",
       "type": "package",
-      "path": "system.linq.dynamic.core/1.3.8",
+      "path": "system.linq.dynamic.core/1.3.9-preview-02",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2499,7 +2499,7 @@
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.pri",
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.xml",
         "logo.png",
-        "system.linq.dynamic.core.1.3.8.nupkg.sha512",
+        "system.linq.dynamic.core.1.3.9-preview-02.nupkg.sha512",
         "system.linq.dynamic.core.nuspec"
       ]
     },
@@ -3076,23 +3076,23 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.1",
       "Microsoft.IdentityModel.Tokens >= 7.3.1",
       "Swashbuckle.AspNetCore >= 6.4.0",
-      "System.Linq.Dynamic.Core >= 1.3.8"
+      "System.Linq.Dynamic.Core >= 1.3.9-preview-02"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\aubbr\\.nuget\\packages\\": {}
+    "C:\\Users\\flavi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
+      "projectUniqueName": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
       "projectName": "IBayApi2",
-      "projectPath": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
-      "packagesPath": "C:\\Users\\aubbr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aubbr\\RiderProjects\\3ASCP---C\\IBayApi2\\obj\\",
+      "projectPath": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\IBayApi2.csproj",
+      "packagesPath": "C:\\Users\\flavi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\flavi\\RiderProjects\\3ASCP---C\\IBayApi2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\aubbr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\flavi\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3146,7 +3146,7 @@
           },
           "System.Linq.Dynamic.Core": {
             "target": "Package",
-            "version": "[1.3.8, )"
+            "version": "[1.3.9-preview-02, )"
           }
         },
         "imports": [
@@ -3168,7 +3168,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\aubbr\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\flavi\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
