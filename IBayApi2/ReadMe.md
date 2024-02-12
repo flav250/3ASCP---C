@@ -19,7 +19,7 @@ Installation des outils :
 
 ###  Création du container
 
-Ouvrez un terminal où ce situe le fichier docker-compose
+Ouvrez un terminal où se situe le fichier docker-compose
 
 ```
 cd IBayApi2
@@ -33,11 +33,11 @@ docker compose up -d
 
 Cette commande va permettre de créer le container SQL Server.
 
-Une fois le container créer, il vous suffira de vous connecter à SQL Server avec votre IDE :
+Une fois le container créé, il vous suffira de vous connecter à SQL Server avec votre IDE :
 
 ###  Connexion à la Database
 
-Voici les indentifiants et mot de passe :
+Voici les identifiants et mot de passe :
 
 - Username : sa
 - Password : 051203-Fl
@@ -47,13 +47,15 @@ Host et le port SQL Server :
 - Host : localhost
 - Port : 1433
  
-Une fois la connexion établie, il vous suffit d'éxecuter le [Script.sql](Data/script.sql) sur la branche localhost/master.
+Une fois la connexion établie, il vous suffit d'exécuter le [Script.sql](Data/script.sql) sur la branche localhost/master.
 
-**Attention** : SQL Server ne doit pas être lancer mise à part sur docker pour eviter un conflit de port.
+**Attention** : SQL Server ne doit pas être lancé mis à part sur docker pour éviter un conflit de port.
 
 Il ne vous reste plus qu'à build le projet.
 
-Pour essayer notre API, vous pouvez le faire sur Swagger mais avec le lien ci-dessous vous pourrez tester toutes les routes mais aussi celle qui nécessite le token. 
+Pour essayer notre API, vous pouvez vous servir du fichier [IBayApi2.http](IBayApi2.http) pour toutes les requêtes nécessitantes une authentification, il vous suffit de modifier le token dans le fichier [http-client.private.env.json](http-client.private.env.json).
+
+Avec le lien, ci-dessous vous pourrez tester toutes les routes, mais aussi celle qui nécessite le token. 
 
 Lien PostMan : https://app.getpostman.com/join-team?invite_code=4f2976ceb1ac76bd642d2e2cfaa4a2f5&target_code=6aaa3f24b4725544a03d18173c0d9744
 
